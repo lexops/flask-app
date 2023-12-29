@@ -27,7 +27,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        token: ${{ secret.G_PERSONAL_ACCESS_TOKEN }}
+        token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         repository: 'lexops/infra'
     - name: Update Image Tag
       run: |
