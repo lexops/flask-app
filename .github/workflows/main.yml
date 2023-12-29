@@ -17,4 +17,19 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{github.run_number}}
+            tags: ${{ github.repository }}:latest,${{ github.repository }}:${{github.run_number}}
+        - name: Trigger Workflow and Wait
+          uses: convictional/trigger-workflow-and-wait@v1.6.1
+          with:
+            owner: lexops
+            repo: flask-app
+            github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
+            github_user: lexops
+            workflow_file_name: main.yml
+            ref: main
+            wait_interval: 0
+            client_payload: '{}'
+            propagate_failure: false
+            trigger_workflow: true
+            wait_workflow: false
+
