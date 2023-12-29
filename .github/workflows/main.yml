@@ -32,5 +32,6 @@ jobs:
         wait_interval: 0
         wait_workflow: false
         propagate_failure: false
+        comment_downstream_url: `HELLO FROM CI`
 
 
