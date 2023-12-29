@@ -22,7 +22,7 @@ jobs:
           uses: convictional/trigger-workflow-and-wait@v1.6.1
           with:
             owner: lexops
-            repo: flask-app
+            repo: infra
             github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
             github_user: lexops
             workflow_file_name: main.yml
