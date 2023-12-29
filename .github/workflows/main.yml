@@ -19,6 +19,7 @@ jobs:
         push: true
         tags: ${{ github.repository }}:latest,${{ github.repository }}:${{github.run_number}}
   deploy:
+    needs: docker-build-push
     runs-on: ubuntu-latest
     steps:
     - name: Trigger Workflow and Wait
