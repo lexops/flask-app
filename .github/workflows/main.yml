@@ -17,4 +17,4 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{github.run_id}}
+            tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{github.run_number}}
