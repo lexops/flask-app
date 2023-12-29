@@ -32,7 +32,7 @@ jobs:
     - name: Update Image Tag
       run: |
         echo "Your run number is: $GITHUB_RUN_NUMBER"
-        sed -i '$s/.*/  newTag: "$GITHUB_RUN_NUMBER"/g' kustomize/overlays/dev/kustomization.yml
+        sed -i "$s/.*/  newTag: $GITHUB_RUN_NUMBER/g" kustomize/overlays/dev/kustomization.yml
     - name: Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
 
