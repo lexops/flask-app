@@ -5,31 +5,29 @@ on:
     branches:
     - main
 jobs:
-  docker:
+  docker-build-push:
     runs-on: ubuntu-latest
     steps:
-        - name: Login to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
-        - name: Build and push
-          uses: docker/build-push-action@v5
-          with:
-            push: true
-            tags: ${{ github.repository }}:latest,${{ github.repository }}:${{github.run_number}}
-        - name: Trigger Workflow and Wait
-          uses: convictional/trigger-workflow-and-wait@v1.6.1
-          with:
-            owner: lexops
-            repo: infra
-            github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
-            github_user: lexops
-            workflow_file_name: main.yml
-            ref: main
-            wait_interval: 0
-            client_payload: '{}'
-            propagate_failure: false
-            trigger_workflow: true
-            wait_workflow: false
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: ${{ github.repository }}:latest,${{ github.repository }}:${{github.run_number}}
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger Workflow and Wait
+      uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: lexops
+        repo: infra
+        github_token: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
+        wait_workflow: false
+        propagate_failure: false
+
 
