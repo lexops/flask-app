@@ -27,7 +27,7 @@ jobs:
       with:
         owner: lexops
         repo: infra
-        github_token: ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }}
+        github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         wait_workflow: false
         propagate_failure: false
 
