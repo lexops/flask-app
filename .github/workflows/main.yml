@@ -27,6 +27,7 @@ jobs:
       with:
         owner: lexops
         repo: infra
+        workflow_file_name: main.yml
         github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         wait_workflow: false
         propagate_failure: false
