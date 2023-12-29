@@ -17,21 +17,38 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ github.repository }}:latest,${{ github.repository }}:${{github.run_number}}
+        tags: ${{ github.repository }}:latest,${{ github.repository }}:${{ github.run_number }}
   deploy:
-    needs: docker-build-push
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - name: Trigger Workflow and Wait
-      uses: convictional/trigger-workflow-and-wait@v1.6.1
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        owner: lexops
-        repo: infra
-        workflow_file_name: main.yml
-        github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
-        wait_interval: 0
-        wait_workflow: false
-        propagate_failure: false
-        comment_downstream_url: "HELLO FROM CI"
+        repository: 'lexops/infra'
+    - name: Update Image Tag
+      run: |
+        sed -i '$s/.*/  newTag: "$GITHUB_RUN_NUMBER"/g' kustomize/overlays/dev/kustomization.yml
+    - name: Git Auto Commit
+      uses: stefanzweifel/git-auto-commit-action@v5.0.0
+
+
+ 
+  # deploy:
+  #   needs: docker-build-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Trigger Workflow and Wait
+  #     uses: convictional/trigger-workflow-and-wait@v1.6.1
+  #     with:
+  #       owner: lexops
+  #       repo: infra
+  #       workflow_file_name: main.yml
+  #       github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
+  #       wait_interval: 0
+  #       wait_workflow: false
+  #       propagate_failure: false
+  #       comment_downstream_url: "HELLO FROM CI"
 
 
