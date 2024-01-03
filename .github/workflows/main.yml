@@ -29,10 +29,15 @@ jobs:
       with:
         token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         repository: 'lexops/infra'
+    # - name: Update Image Tag
+    #   run: |
+    #     echo "Your run number is: $GITHUB_RUN_NUMBER"
+    #     sed -i '$s/.*/  newTag: '\""$GITHUB_RUN_NUMBER"\"'/' kustomize/overlays/dev/kustomization.yml
     - name: Update Image Tag
-      run: |
-        echo "Your run number is: $GITHUB_RUN_NUMBER"
-        sed -i '$s/.*/  newTag: '\""$GITHUB_RUN_NUMBER"\"'/' kustomize/overlays/dev/kustomization.yml
+      uses: mikefarah/yq@master
+      with:
+        cmd: |
+          yq -ie '(.images[] | select(.name == "lexops/flask-app")).newTag = env(GITHUN_RUN_NUMBER)' kustomize/overlays/dev/kustomization.yml
     - name: Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
 
