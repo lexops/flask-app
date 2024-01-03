@@ -37,7 +37,7 @@ jobs:
       uses: mikefarah/yq@master
       with:
         cmd: |
-          yq -ie '(.images[] | select(.name == "lexops/flask-app")).newTag = env(GITHUN_RUN_NUMBER)' kustomize/overlays/dev/kustomization.yml
+          yq -ie '(.images[] | select(.name == "lexops/flask-app")).newTag = env(GITHUB_RUN_NUMBER)' kustomize/overlays/dev/kustomization.yml
     - name: Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
 
