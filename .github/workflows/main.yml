@@ -23,8 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    env:
-      IMAGE_TAG: "${{ github.run_number }}"
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -38,9 +36,9 @@ jobs:
     - name: Update Image
       working-directory: kustomize/overlays/dev
       run: |
-        kustomize edit set image flask-app:"$IMAGE_TAG"
+        kustomize edit set image flask-app:${GITHUB_SHA}
         git add .
-        git commit -m "Set `flask-app` image tag to $IMAGE_TAG"
+        git commit -m "Set `flask-app` image tag to `${GITHUB_SHA}`"
         git push
       
 
