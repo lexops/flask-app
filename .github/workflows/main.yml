@@ -39,7 +39,7 @@ jobs:
         kustomize edit set image lexops/flask-app:${GITHUB_RUN_NUMBER}
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: Set `flask-app` image tag to `${{ github.run_number }}`
+        commit_message: Set `lexops/flask-app` image tag to `${{ github.run_number }}`
 
 
           
