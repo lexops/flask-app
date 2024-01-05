@@ -24,30 +24,6 @@ jobs:
         tags: ${{ github.repository }}:latest,${{ github.repository }}:${{ github.run_number }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-  deploy-to-dev:
-    needs: docker-build-push
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
-        repository: 'lexops/infra'
-    - name: Setup Kustomize
-      uses: imranismail/setup-kustomize@v2.1.0-rc
-      # with:
-      #   github-token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
-    - name: Update Image
-      working-directory: kustomize/overlays/dev
-      run: |
-        kustomize edit set image lexops/flask-app:${GITHUB_RUN_NUMBER}
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: Set `lexops/flask-app` image tag to `${{ github.run_number }}`
-
-
           
   # deploy:
   #   needs: docker-build-push
