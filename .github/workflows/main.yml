@@ -31,16 +31,16 @@ jobs:
         repository: 'lexops/infra'
     - name: Setup Kustomize
       uses: imranismail/setup-kustomize@v2.1.0-rc
-      with:
-        github-token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
+      # with:
+      #   github-token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
     - name: Update Image
       working-directory: kustomize/overlays/dev
       run: |
-        kustomize edit set image flask-app:${GITHUB_SHA}
-        git add .
-        git commit -m "Set `flask-app` image tag to `${GITHUB_SHA}`"
-        git push
-      
+        kustomize edit set image lexops/flask-app:${GITHUB_SHA}
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Set `flask-app` image tag to `${GITHUB_SHA}`"
+
 
           
   # deploy:
