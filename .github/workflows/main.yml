@@ -20,6 +20,8 @@ jobs:
       with:
         push: true
         tags: ${{ github.repository }}:latest,${{ github.repository }}:${{ github.run_number }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
   deploy-to-dev:
     needs: docker-build-push
     runs-on: ubuntu-latest
