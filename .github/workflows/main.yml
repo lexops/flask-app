@@ -30,15 +30,16 @@ jobs:
         token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         repository: 'lexops/infra'
     - name: Setup Kustomize
-      uses: imranismail/setup-kustomize@v2.1.0-rc
+    - uses: imranismail/setup-kustomize@v2.1.0-rc
       with:
         github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
     - working-directory: kustomize/overlays/dev
-    - run: |
-        kustomize edit set image flask-app:$GITHUB_RUN_NUMBER
+      run: |
+        kustomize edit set image flask-app:${GITHUB_RUN_NUMBER}
         git add .
         git commit -m "Set `flask-app` image tag to `${GITHUB_RUN_NUMBER}`"
         git push
+        
           
   # deploy:
   #   needs: docker-build-push
