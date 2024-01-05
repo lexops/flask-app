@@ -32,14 +32,13 @@ jobs:
     - name: Setup Kustomize
       uses: imranismail/setup-kustomize@v2.1.0-rc
       with:
-        github-token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
+        github_token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
     - run: |
-        cd kustomize/overlays/dev
-        kustomize edit set image flask-app=${GITHUB_RUN_NUMBER}
+        kustomize edit set image flask-app:${GITHUB_RUN_NUMBER}
         git add .
         git commit -m "Set `flask-app` image tag to `${GITHUB_RUN_NUMBER}`"
         git push
-
+          
   # deploy:
   #   needs: docker-build-push
   #   runs-on: ubuntu-latest
