@@ -29,20 +29,17 @@ jobs:
       with:
         token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
         repository: 'lexops/infra'
-    # - name: Update Image Tag
-    #   run: |
-    #     echo "Your run number is: $GITHUB_RUN_NUMBER"
-    #     sed -i '$s/.*/  newTag: '\""$GITHUB_RUN_NUMBER"\"'/' kustomize/overlays/dev/kustomization.yml
-    - name: Update Image Tag
-      uses: mikefarah/yq@master
+    - name: Setup Kustomize
+      uses: imranismail/setup-kustomize@v2.1.0-rc
       with:
-        cmd: |
-          yq -ie '(.images[] | select(.name == "lexops/flask-app")).newTag = env(GITHUB_RUN_NUMBER)' kustomize/overlays/dev/kustomization.yml
-    - name: Git Auto Commit
-      uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        github-token: ${{ secrets.G_PERSONAL_ACCESS_TOKEN }}
+    - run: |
+        cd kustomize/overlays/dev
+        kustomize edit set image flask-app:${GITHUB_RUN_NUMBER}
+        git add .
+        git commit -m "Set `flask-app` image tag to `${GITHUB_RUN_NUMBER}`"
+        git push
 
-
- 
   # deploy:
   #   needs: docker-build-push
   #   runs-on: ubuntu-latest
